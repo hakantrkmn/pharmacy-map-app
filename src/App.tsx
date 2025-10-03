@@ -15,6 +15,31 @@ function App() {
   const [locationError, setLocationError] = useState<string | null>(null);
   const [dataError, setDataError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  // PWA Install Prompt
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallPrompt(true);
+    };
+
+    const handleAppInstalled = () => {
+      setShowInstallPrompt(false);
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
 
   // Load pharmacy data from backend API with Redis caching
   useEffect(() => {
@@ -91,6 +116,22 @@ function App() {
     setSelectedPharmacy(pharmacy);
   };
 
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+
+    setDeferredPrompt(null);
+    setShowInstallPrompt(false);
+  };
+
   const handleLocationRefresh = async () => {
     setLocationError(null);
     try {
@@ -136,6 +177,18 @@ function App() {
       <Analytics />
       <header className="app-header">
         <h1>Nöbetçi Eczaneler</h1>
+        {showInstallPrompt && (
+          <div className="pwa-install-banner">
+            <button
+              onClick={handleInstallClick}
+              className="install-button"
+              aria-label="Uygulamayı yükle"
+              title="Uygulamayı yükle"
+            >
+              📱
+            </button>
+          </div>
+        )}
         <div className="location-status">
           {userLocation ? (
             <div className="location-success">

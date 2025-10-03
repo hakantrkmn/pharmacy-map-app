@@ -11,6 +11,7 @@ Bu React uygulaması, İzmir Eczacı Odası'nın günlük nöbetçi eczane veril
 - **Konum Tabanlı Sıralama**: Kullanıcının konumuna göre eczaneleri sıralar
 - **Detaylı Bilgiler**: Eczane adı, adres, telefon, harita koordinatları
 - **Responsive Tasarım**: Mobil ve masaüstü uyumlu
+- **PWA Desteği**: Progressive Web App - Offline çalışabilme, kurulum ve push notification
 - **Backend API**: Express.js ile RESTful API
 
 ## 🔧 Teknik Detaylar
@@ -35,6 +36,12 @@ Bu React uygulaması, İzmir Eczacı Odası'nın günlük nöbetçi eczane veril
 - **Strateji**: Mevcut verileri kontrol eder, eksik olanları yükler
 - **Platform**: Vercel Cron Jobs ile serverless execution
 - **Loglama**: Detaylı çalışma raporları
+
+### Progressive Web App (PWA)
+- **Web App Manifest**: Uygulama bilgileri, ikonlar ve kurulum ayarları
+- **Service Worker**: Offline caching, background sync ve push notifications
+- **Install Prompt**: Otomatik kurulum önerisi
+- **Offline Support**: Temel sayfalar ve veriler offline çalışabilme
 
 ### Veri Yapısı
 ```typescript
@@ -115,6 +122,13 @@ npm start
 2. Konum izni verilirse, eczaneler mesafeye göre sıralanır
 3. Harita üzerinde eczaneleri görebilir ve detaylarını inceleyebilirsiniz
 4. Liste görünümünde de eczaneleri görebilirsiniz
+
+### PWA Kurulumu
+
+- **Chrome/Edge**: Adres çubuğunda "Uygulamayı yükle" butonu görünür
+- **Safari (iOS)**: Paylaş butonundan "Ana Ekrana Ekle" seçeneği
+- **Firefox**: Adres çubuğunda kurulum ikonu
+- **Mobil cihazlarda**: Otomatik kurulum önerisi gelir
 
 ## 🔄 Veri Güncelleme
 
@@ -213,6 +227,7 @@ Cache istatistiklerini getirir.
 - ✅ **Konum Tabanlı**: Mesafeye göre sıralama
 - ✅ **Ölçeklenebilir**: Redis ile yüksek performans
 - ✅ **Güvenli**: Backend API ile güvenli veri erişimi
+- ✅ **PWA Desteği**: Offline çalışabilme, kurulum ve native app deneyimi
 
 ## 🔧 Geliştirme
 
@@ -220,10 +235,12 @@ Cache istatistiklerini getirir.
 - Farklı tarihler için veri çekme
 - İlçe bazlı filtreleme
 - Favori eczaneler
-- Bildirim sistemi
+- Push notification sistemi
+- PWA: Background sync ve offline-first yaklaşım
 
 ### Teknik İyileştirmeler
 - ✅ Caching mekanizması (Redis ile implement edildi)
+- ✅ PWA implementasyonu (Service Worker, Web App Manifest)
 - Error handling iyileştirmeleri
 - Performance optimizasyonları
 - Rate limiting

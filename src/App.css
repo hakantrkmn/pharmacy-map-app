@@ -92,6 +92,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .app-header h1 {
@@ -512,5 +513,61 @@ body {
 
   .pharmacy-item {
     padding: 0.5rem;
+  }
+}
+
+/* PWA Install Banner */
+.pwa-install-banner {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.install-button {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: 2px solid #667eea;
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.install-button:hover {
+  background: #667eea;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.install-button:active {
+  transform: scale(0.95);
+}
+
+.install-button:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Mobile PWA Install Banner */
+@media (max-width: 768px) {
+  .pwa-install-banner {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .install-button {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
   }
 }
