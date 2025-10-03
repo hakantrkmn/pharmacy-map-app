@@ -25,12 +25,20 @@ function App() {
       e.preventDefault();
       setDeferredPrompt(e);
       setShowInstallPrompt(true);
+      console.log('PWA install prompt available');
     };
 
     const handleAppInstalled = () => {
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
+      console.log('PWA installed successfully');
     };
+
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('PWA already installed');
+      setShowInstallPrompt(false);
+    }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
@@ -175,20 +183,20 @@ function App() {
   return (
     <div className="app">
       <Analytics />
+      {showInstallPrompt && (
+        <div className="pwa-install-banner">
+          <button
+            onClick={handleInstallClick}
+            className="install-button"
+            aria-label="Uygulamayı yükle"
+            title="Uygulamayı yükle"
+          >
+            📱
+          </button>
+        </div>
+      )}
       <header className="app-header">
         <h1>Nöbetçi Eczaneler</h1>
-        {showInstallPrompt && (
-          <div className="pwa-install-banner">
-            <button
-              onClick={handleInstallClick}
-              className="install-button"
-              aria-label="Uygulamayı yükle"
-              title="Uygulamayı yükle"
-            >
-              📱
-            </button>
-          </div>
-        )}
         <div className="location-status">
           {userLocation ? (
             <div className="location-success">

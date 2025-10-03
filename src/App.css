@@ -518,10 +518,10 @@ body {
 
 /* PWA Install Banner */
 .pwa-install-banner {
-  position: absolute;
+  position: fixed;
   top: 1rem;
   right: 1rem;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .install-button {
@@ -563,11 +563,15 @@ body {
   .pwa-install-banner {
     top: 0.5rem;
     right: 0.5rem;
+    z-index: 9999;
   }
 
   .install-button {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #667eea;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 }
