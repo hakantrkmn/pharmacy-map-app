@@ -1,0 +1,110 @@
+{
+  "extractedAt": "2025-10-03T11:20:48.524Z",
+  "totalPharmacies": 8,
+  "pharmacies": [
+    {
+      "name": "GÜLTEKIN",
+      "location": "IZMIR",
+      "address": "KÜLTÜR MAH. ATATÜRK CAD. NO:57/B ALIAGA-IZMIR",
+      "phone": "02326166725",
+      "notes": "",
+      "coordinates": {
+        "latitude": 38.803125,
+        "longitude": 26.971302
+      },
+      "mapLink": "https://www.google.com/maps?q=38.803125,26.971302",
+      "extractedAt": "2025-10-03T11:20:48.508Z"
+    },
+    {
+      "name": "ELİF ÖYKÜ",
+      "location": "BASMANE",
+      "address": "AKDENİZ MAH. AKDENİZ CAD. NO:8/G",
+      "phone": "02324841956",
+      "notes": "",
+      "coordinates": {
+        "latitude": 38.427138,
+        "longitude": 27.133849
+      },
+      "mapLink": "https://www.google.com/maps?q=38.427138,27.133849",
+      "extractedAt": "2025-10-03T11:20:48.509Z"
+    },
+    {
+      "name": "BORNOVA CANAN",
+      "location": "ÇAMDİBİ KONUTLARI KARŞISI",
+      "address": "REFİK TULGA CD. 5311 SK. NO:16/A",
+      "phone": "02323511313",
+      "notes": "",
+      "coordinates": {
+        "latitude": 38.435356,
+        "longitude": 27.187884
+      },
+      "mapLink": "https://www.google.com/maps?q=38.435356,27.187884",
+      "extractedAt": "2025-10-03T11:20:48.513Z"
+    },
+    {
+      "name": "ÇESMEALTI",
+      "location": "İSKELE",
+      "address": "OKUL CAD.NO:46 ÇESMEALTI",
+      "phone": "02327551738",
+      "notes": "23:00'DEN SONRA- URLA",
+      "coordinates": {
+        "latitude": 38.395039,
+        "longitude": 26.746881
+      },
+      "mapLink": "https://www.google.com/maps?q=38.395039,26.746881",
+      "extractedAt": "2025-10-03T11:20:48.516Z"
+    },
+    {
+      "name": "GÜMÜSIGNE",
+      "location": "IZMIR",
+      "address": "KÖYIÇI MAH. DERE CAD. NO:16 ÇIGLI-IZMIR",
+      "phone": "02323861337",
+      "notes": "",
+      "coordinates": {
+        "latitude": 38.492768,
+        "longitude": 27.065505
+      },
+      "mapLink": "https://www.google.com/maps?q=38.492768,27.065505",
+      "extractedAt": "2025-10-03T11:20:48.517Z"
+    },
+    {
+      "name": "ULUKAYA",
+      "location": "CENNETÇEŞME",
+      "address": "ALI FUAT ERDEM MAH.9801 SK. NO:6/B",
+      "phone": "02322673000",
+      "notes": "",
+      "coordinates": {
+        "latitude": 38.369431,
+        "longitude": 27.095715
+      },
+      "mapLink": "https://www.google.com/maps?q=38.369431,27.095715",
+      "extractedAt": "2025-10-03T11:20:48.517Z"
+    },
+    {
+      "name": "RESADIYE",
+      "location": "B",
+      "address": "1748 SOK.NO:44/A-B",
+      "phone": "02323810860",
+      "notes": "",
+      "coordinates": {
+        "latitude": 38.452598,
+        "longitude": 27.108301
+      },
+      "mapLink": "https://www.google.com/maps?q=38.452598,27.108301",
+      "extractedAt": "2025-10-03T11:20:48.519Z"
+    },
+    {
+      "name": "TEOS",
+      "location": "SIĞACIK BÖLGESİ",
+      "address": "SIGACIK MAH. AKKUM CAD NO 35/A",
+      "phone": "02327457648",
+      "notes": "21:00'DEN SONRA- SEFERİHİSAR",
+      "coordinates": {
+        "latitude": 38.19121,
+        "longitude": 26.784998
+      },
+      "mapLink": "https://www.google.com/maps?q=38.191210,26.784998",
+      "extractedAt": "2025-10-03T11:20:48.521Z"
+    }
+  ]
+}

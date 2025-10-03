@@ -1,0 +1,516 @@
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Loading state */
+.loading {
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.loading-spinner {
+  text-align: center;
+}
+
+.loading-spinner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.loading-spinner p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Error state */
+.error {
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.error-message {
+  text-align: center;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.error-message h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.error-message p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.error-message button {
+  background: white;
+  color: #f5576c;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.error-message button:hover {
+  transform: translateY(-2px);
+}
+
+/* Header */
+.app-header {
+  background: white;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header h1 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.location-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.location-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.location-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.location-icon {
+  font-size: 1.2rem;
+}
+
+.refresh-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refresh-btn:hover {
+  background: #2980b9;
+}
+
+/* Main content */
+.app-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.map-section {
+  flex: 1;
+  min-height: 0;
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+}
+
+.list-section {
+  width: 400px;
+  background: white;
+  border-left: 1px solid #ecf0f1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pharmacy list */
+.pharmacy-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #ecf0f1;
+  background: #f8f9fa;
+}
+
+.list-header h2 {
+  color: #2c3e50;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.pharmacy-count {
+  color: #7f8c8d;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.location-info {
+  color: #27ae60;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.pharmacy-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.pharmacy-item {
+  background: white;
+  border: 1px solid #ecf0f1;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pharmacy-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.pharmacy-item.selected {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.pharmacy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.pharmacy-header h3 {
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.distance {
+  background: #e8f5e8;
+  color: #27ae60;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pharmacy-info {
+  margin-bottom: 1rem;
+}
+
+.pharmacy-info p {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.pharmacy-info .label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-right: 0.25rem;
+}
+
+.pharmacy-info .location {
+  color: #34495e;
+}
+
+.pharmacy-info .address {
+  color: #7f8c8d;
+}
+
+.pharmacy-info .phone {
+  color: #2980b9;
+}
+
+.pharmacy-info .notes {
+  color: #e67e22;
+  font-style: italic;
+}
+
+.pharmacy-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.directions-btn, .call-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.directions-btn {
+  background: #3498db;
+  color: white;
+}
+
+.directions-btn:hover {
+  background: #2980b9;
+}
+
+.call-btn {
+  background: #27ae60;
+  color: white;
+}
+
+.call-btn:hover {
+  background: #229954;
+}
+
+/* Popup styles */
+.pharmacy-popup h3 {
+  color: #2c3e50;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pharmacy-popup p {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.pharmacy-popup strong {
+  color: #2c3e50;
+}
+
+.user-popup h3 {
+  color: #3498db;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.user-popup p {
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+}
+
+.popup-actions {
+  margin-top: 0.5rem;
+}
+
+.popup-actions .directions-btn {
+  width: 100%;
+  padding: 0.5rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.popup-actions .directions-btn:hover {
+  background: #2980b9;
+}
+
+/* Date Picker - Compact */
+.date-picker-compact {
+  background: white;
+  border-bottom: 1px solid #ecf0f1;
+  padding: 0.75rem 1.5rem;
+}
+
+.date-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 400px;
+}
+
+.date-label {
+  color: #2c3e50;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.date-select-compact {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ecf0f1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: white;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  min-width: 120px;
+}
+
+.date-select-compact:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.date-select-compact:disabled {
+  background: #f8f9fa;
+  color: #7f8c8d;
+  cursor: not-allowed;
+}
+
+.loading-spinner-small {
+  display: flex;
+  align-items: center;
+}
+
+.spinner-small {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ecf0f1;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Footer */
+.app-footer {
+  background: white;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid #ecf0f1;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.875rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .date-picker-compact {
+    padding: 0.5rem 1rem;
+  }
+
+  .date-picker-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    max-width: none;
+  }
+
+  .date-select-compact {
+    width: 100%;
+  }
+
+  .app-main {
+    flex-direction: column;
+  }
+
+  .list-section {
+    width: 100%;
+    height: 50%;
+    border-left: none;
+    border-top: 1px solid #ecf0f1;
+  }
+
+  .map-section {
+    height: 50%;
+  }
+
+  .pharmacy-item {
+    padding: 0.75rem;
+  }
+
+  .pharmacy-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .pharmacy-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .location-status {
+    font-size: 0.875rem;
+  }
+
+  .list-header {
+    padding: 1rem;
+  }
+
+  .list-header h2 {
+    font-size: 1.125rem;
+  }
+
+  .pharmacy-items {
+    padding: 0.75rem;
+  }
+
+  .pharmacy-item {
+    padding: 0.5rem;
+  }
+}
