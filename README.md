@@ -6,6 +6,7 @@ Bu React uygulaması, İzmir Eczacı Odası'nın günlük nöbetçi eczane veril
 
 - **Redis Caching**: Eczane verileri tarih bazlı olarak Redis'te cache'lenir
 - **Hızlı Veri Erişimi**: İlk istekte web sitesinden çeker, sonraki isteklerde cache'den döner
+- **Otomatik Veri Ön Yükleme**: Her gün sabah 8'de önümüzdeki 3 günün verileri otomatik olarak yüklenir (Vercel Cron Jobs)
 - **Harita Görünümü**: Leaflet haritası üzerinde eczaneleri gösterir
 - **Konum Tabanlı Sıralama**: Kullanıcının konumuna göre eczaneleri sıralar
 - **Detaylı Bilgiler**: Eczane adı, adres, telefon, harita koordinatları
@@ -27,6 +28,13 @@ Bu React uygulaması, İzmir Eczacı Odası'nın günlük nöbetçi eczane veril
 - **TTL**: 24 saat (86400 saniye)
 - **Fallback**: Redis bağlantısı yoksa doğrudan web sitesinden veri çeker
 - **Error Handling**: Redis hatalarında uygulama çalışmaya devam eder
+
+### Otomatik Veri Ön Yükleme (Cron Jobs)
+- **Zamanlama**: Her gün 08:00'da çalışır
+- **Kapsam**: Bugün + önümüzdeki 2 gün (toplam 3 gün)
+- **Strateji**: Mevcut verileri kontrol eder, eksik olanları yükler
+- **Platform**: Vercel Cron Jobs ile serverless execution
+- **Loglama**: Detaylı çalışma raporları
 
 ### Veri Yapısı
 ```typescript
@@ -143,6 +151,32 @@ Belirli bir tarih için cache'i temizler.
 
 #### GET /api/cache/stats
 Cache istatistiklerini getirir.
+
+#### GET /api/cron/preload-pharmacies
+**Otomatik Çalışan Cron Job**: Önümüzdeki 3 günün eczane verilerini önceden yükler.
+
+**Zamanlama**: Her gün 08:00'da Vercel Cron Jobs ile otomatik çalışır.
+
+**Response:**
+```json
+{
+  "message": "Cron job completed",
+  "timestamp": "2024-01-15T08:00:00.000Z",
+  "results": [
+    {
+      "date": "2024-01-15",
+      "status": "fetched",
+      "count": 73
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "fetched": 2,
+    "already_cached": 1,
+    "errors": 0
+  }
+}
+```
 
 ### Kaynak Web Sitesi
 - **URL**: `https://www.izmireczaciodasi.org.tr/nobetci-eczaneler`

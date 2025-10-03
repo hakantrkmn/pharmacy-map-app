@@ -12,6 +12,12 @@
       "dest": "/src/server.js"
     }
   ],
+  "crons": [
+    {
+      "path": "/api/cron/preload-pharmacies",
+      "schedule": "0 8 * * *"
+    }
+  ],
   "env": {
     "REDIS_URL": "@redis_url"
   }

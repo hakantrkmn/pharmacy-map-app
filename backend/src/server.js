@@ -101,9 +101,90 @@ app.get('/api/cache/stats', async (req, res) => {
     });
   } catch (error) {
     console.error('Error getting cache stats:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to get cache statistics',
-      message: error.message 
+      message: error.message
+    });
+  }
+});
+
+// Cron job endpoint - Preload pharmacy data for next 3 days
+app.get('/api/cron/preload-pharmacies', async (req, res) => {
+  try {
+    console.log('Starting cron job: Preloading pharmacy data for next 3 days');
+
+    const results = [];
+    const today = new Date();
+
+    // Preload data for today and next 2 days (3 days total)
+    for (let i = 0; i < 3; i++) {
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() + i);
+
+      // Format date as YYYY-MM-DD
+      const dateString = targetDate.toISOString().split('T')[0];
+
+      try {
+        console.log(`Preloading pharmacy data for date: ${dateString}`);
+
+        // Check if data already exists in cache
+        const existingData = await redisCache.getPharmacies(dateString);
+
+        if (existingData) {
+          console.log(`Data already cached for ${dateString}, skipping...`);
+          results.push({
+            date: dateString,
+            status: 'already_cached',
+            count: existingData.length
+          });
+          continue;
+        }
+
+        // Fetch fresh data from website
+        const pharmacies = await getPharmacies(dateString);
+
+        results.push({
+          date: dateString,
+          status: 'fetched',
+          count: pharmacies.length
+        });
+
+        console.log(`Successfully preloaded ${pharmacies.length} pharmacies for ${dateString}`);
+
+      } catch (error) {
+        console.error(`Error preloading data for ${dateString}:`, error);
+        results.push({
+          date: dateString,
+          status: 'error',
+          error: error.message
+        });
+      }
+    }
+
+    const successCount = results.filter(r => r.status === 'fetched').length;
+    const alreadyCachedCount = results.filter(r => r.status === 'already_cached').length;
+    const errorCount = results.filter(r => r.status === 'error').length;
+
+    console.log(`Cron job completed: ${successCount} fetched, ${alreadyCachedCount} already cached, ${errorCount} errors`);
+
+    res.json({
+      message: 'Cron job completed',
+      timestamp: new Date().toISOString(),
+      results: results,
+      summary: {
+        total: results.length,
+        fetched: successCount,
+        already_cached: alreadyCachedCount,
+        errors: errorCount
+      }
+    });
+
+  } catch (error) {
+    console.error('Error in cron job:', error);
+    res.status(500).json({
+      error: 'Cron job failed',
+      message: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
