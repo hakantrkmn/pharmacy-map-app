@@ -40,6 +40,6 @@
     }
   ],
   "env": {
-    "REDIS_URL": "@redis_url"
+    "REDIS_URL": "$REDIS_URL"
   }
 }
