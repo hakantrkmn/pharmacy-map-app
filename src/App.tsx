@@ -24,7 +24,11 @@ function App() {
         setSelectedPharmacy(null); // Clear selected pharmacy when date changes
         
         // Fetch data from backend API (which handles Redis caching)
-        const response = await fetch(`http://localhost:3001/api/pharmacies?date=${date}`, {
+        const apiUrl = import.meta.env.DEV 
+          ? `http://localhost:3001/api/pharmacies?date=${date}`
+          : `/api/pharmacies?date=${date}`;
+        
+        const response = await fetch(apiUrl, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

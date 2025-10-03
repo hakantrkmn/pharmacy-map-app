@@ -7,8 +7,12 @@
 
 import fetch from 'node-fetch';
 
-const BACKEND_URL = 'http://localhost:3001';
-const FRONTEND_URL = 'http://localhost:5173';
+const BACKEND_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://izmir-nobetci-eczane.vercel.app'
+  : 'http://localhost:3001';
+const FRONTEND_URL = process.env.NODE_ENV === 'production'
+  ? 'https://izmir-nobetci-eczane.vercel.app'
+  : 'http://localhost:5173';
 
 async function testBackendHealth() {
   try {
