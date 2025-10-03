@@ -11,8 +11,16 @@ class RedisCache {
 
   async connect() {
     try {
+      const redisUrl = process.env.REDIS_URL;
+      
+      if (!redisUrl) {
+        console.warn('REDIS_URL not found in environment variables');
+        this.isConnected = false;
+        return;
+      }
+      
       this.client = createClient({
-        url: process.env.REDIS_URL
+        url: redisUrl
       });
 
       this.client.on('error', (err) => {
