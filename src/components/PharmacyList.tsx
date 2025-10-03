@@ -27,6 +27,13 @@ export default function PharmacyList({
     window.open(`tel:${phone}`, '_self');
   };
 
+  const handlePrintNobetKarti = (pharmacy: Pharmacy, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (pharmacy.nobetKartiId) {
+      window.open(`https://www.izmireczaciodasi.org.tr/${pharmacy.nobetKartiId}`, '_blank');
+    }
+  };
+
   return (
     <div className="pharmacy-list">
       <div className="list-header">
@@ -58,9 +65,14 @@ export default function PharmacyList({
               </div>
 
               <div className="pharmacy-info">
-                <p className="location">
-                  <span className="label">Bölge:</span> {pharmacy.location}
+                <p className="district">
+                  <span className="label">İlçe:</span> {pharmacy.district}
                 </p>
+                {pharmacy.address && (
+                  <p className="address">
+                    <span className="label">Adres:</span> {pharmacy.address}
+                  </p>
+                )}
                 <p className="phone">
                   <span className="label">Telefon:</span> {pharmacy.phone}
                 </p>
@@ -84,6 +96,14 @@ export default function PharmacyList({
                 >
                   Ara
                 </button>
+                {pharmacy.nobetKartiId && (
+                  <button
+                    onClick={(e) => handlePrintNobetKarti(pharmacy, e)}
+                    className="print-btn"
+                  >
+                    Nöbet Kartı
+                  </button>
+                )}
               </div>
             </div>
           );

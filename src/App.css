@@ -285,7 +285,7 @@ body {
   gap: 0.5rem;
 }
 
-.directions-btn, .call-btn {
+.directions-btn, .call-btn, .print-btn {
   flex: 1;
   padding: 0.5rem;
   border: none;
@@ -312,6 +312,15 @@ body {
 
 .call-btn:hover {
   background: #229954;
+}
+
+.print-btn {
+  background: #8e44ad;
+  color: white;
+}
+
+.print-btn:hover {
+  background: #7d3c98;
 }
 
 /* Popup styles */

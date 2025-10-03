@@ -57,65 +57,92 @@ function parsePharmacyData(html) {
   const dom = new JSDOM(html);
   const document = dom.window.document;
 
-  // Find all pharmacy containers
-  const pharmacyElements = document.querySelectorAll('div.col_10_of_12');
+  // Find all pharmacy containers using the new pattern
+  // Look for h4 elements with strong tags that contain pharmacy info
+  const pharmacyElements = document.querySelectorAll('h4 strong');
 
-  pharmacyElements.forEach((element) => {
-    const h4Element = element.querySelector('h4 strong');
-    const pElement = element.querySelector('p');
+  pharmacyElements.forEach((h4Element) => {
+    const h4Text = h4Element.textContent?.trim() || '';
+    
+    // Check if this is a pharmacy entry (format: "ECZANE ADI - TARİH / İLÇE")
+    const nameLocationMatch = h4Text.match(/^(.+?)\s*-\s*(.+)$/);
+    
+    if (nameLocationMatch) {
+      const pharmacyName = cleanText(nameLocationMatch[1].replace('ECZANESİ', '').trim());
+      const fullLocation = cleanText(nameLocationMatch[2]);
+      
+      // Extract district from "TARİH / İLÇE" format
+      const districtMatch = fullLocation.match(/\d{2}\.\d{2}\.\d{4}\s*\/\s*(.+)$/);
+      const district = districtMatch ? cleanText(districtMatch[1]) : fullLocation;
+      
+      // Find the parent container to get other elements
+      const parentContainer = h4Element.closest('div') || h4Element.parentElement;
+      
+      // Extract phone from tel link
+      const phoneLink = parentContainer.querySelector('a[href^="tel:"]');
+      const phone = phoneLink ? normalizePhone(phoneLink.textContent?.trim() || '') : '';
 
-    if (h4Element && pElement) {
-      // Extract pharmacy name and location from h4
-      // Format: "ECZANE ADI - TARİH / BÖLGE"
-      const h4Text = h4Element.textContent?.trim() || '';
-      const nameLocationMatch = h4Text.match(/^(.+?)\s*-\s*\d{2}\.\d{2}\.\d{4}\s*\/\s*(.+)$/);
-
-      if (nameLocationMatch) {
-        const pharmacyName = cleanText(nameLocationMatch[1].replace('ECZANESİ', '').trim());
-        const location = cleanText(nameLocationMatch[2]);
-
-        // Extract phone from tel link
-        const phoneLink = pElement.querySelector('a[href^="tel:"]');
-        const phone = phoneLink ? normalizePhone(phoneLink.textContent?.trim() || '') : '';
-
-        // Extract address - first line after the home icon
-        const addressMatch = pElement.textContent?.match(/fa-home main-color[^>]*>([^<]+)/);
-        const address = addressMatch ? cleanText(addressMatch[1]) : '';
-
-        // Extract coordinates from Google Maps link
-        const mapLink = pElement.querySelector('a[href*="google.com/maps"]');
-        let coordinates = null;
-        if (mapLink) {
-          const href = mapLink.getAttribute('href') || '';
-          const coordMatch = href.match(/q=([0-9.-]+),([0-9.-]+)/);
-          if (coordMatch) {
-            coordinates = {
-              latitude: parseFloat(coordMatch[1]),
-              longitude: parseFloat(coordMatch[2])
-            };
-          }
+      // Extract address - look for text after the h4 element
+      let address = '';
+      const textContent = parentContainer.textContent || '';
+      const lines = textContent.split('\n').map(line => line.trim()).filter(line => line);
+      
+      // Find address line (usually after pharmacy name and before phone)
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (line && !line.includes('ECZANESİ') && !line.includes('-') && 
+            !line.match(/^\d{10,11}$/) && !line.includes('haritada') && 
+            !line.includes('Nöbet Kartı') && !line.includes('ECZANESİ') &&
+            !line.match(/^\d{2}\.\d{2}\.\d{4}/) && line.length > 10) {
+          address = cleanText(line);
+          break;
         }
+      }
 
-        // Check for special notes (like time restrictions)
-        const notesMatch = pElement.textContent?.match(/\*\s*\(([^)]+)\)/);
-        const notes = notesMatch ? cleanText(notesMatch[1]) : '';
-
-        // Create unique key to avoid duplicates
-        const uniqueKey = `${pharmacyName}-${location}-${phone}`;
-
-        if (pharmacyName && location && !seenPharmacies.has(uniqueKey)) {
-          seenPharmacies.add(uniqueKey);
-          pharmacies.push({
-            name: pharmacyName,
-            location: location,
-            address: address,
-            phone: phone,
-            notes: notes,
-            coordinates: coordinates,
-            mapLink: mapLink ? mapLink.getAttribute('href') || '' : '',
-            extractedAt: new Date().toISOString()
-          });
+      // Extract coordinates from Google Maps link
+      const mapLink = parentContainer.querySelector('a[href*="google.com/maps"]');
+      let coordinates = null;
+      if (mapLink) {
+        const href = mapLink.getAttribute('href') || '';
+        const coordMatch = href.match(/q=([0-9.-]+),([0-9.-]+)/);
+        if (coordMatch) {
+          coordinates = {
+            latitude: parseFloat(coordMatch[1]),
+            longitude: parseFloat(coordMatch[2])
+          };
         }
+      }
+
+      // Extract nöbet kartı link
+      const nobetKartiLink = parentContainer.querySelector('a[href*="nobet-karti-"]');
+      const nobetKartiId = nobetKartiLink ? nobetKartiLink.getAttribute('href') : '';
+
+      // Check for special notes (like time restrictions)
+      const notesMatch = textContent.match(/\*\s*\(([^)]+)\)/);
+      const notes = notesMatch ? cleanText(notesMatch[1]) : '';
+
+      // Extract eczane image
+      const eczaneImage = parentContainer.querySelector('img[src*="epano.gif"]');
+      const imageUrl = eczaneImage ? eczaneImage.getAttribute('src') : '';
+
+      // Create unique key to avoid duplicates
+      const uniqueKey = `${pharmacyName}-${district}-${phone}`;
+
+      if (pharmacyName && district && !seenPharmacies.has(uniqueKey)) {
+        seenPharmacies.add(uniqueKey);
+        pharmacies.push({
+          name: pharmacyName,
+          district: district,
+          location: district, // Keep for backward compatibility
+          address: address,
+          phone: phone,
+          notes: notes,
+          coordinates: coordinates,
+          mapLink: mapLink ? mapLink.getAttribute('href') || '' : '',
+          nobetKartiId: nobetKartiId,
+          imageUrl: imageUrl,
+          extractedAt: new Date().toISOString()
+        });
       }
     }
   });

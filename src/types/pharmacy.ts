@@ -5,12 +5,15 @@ export interface Coordinates {
 
 export interface Pharmacy {
   name: string;
-  location: string;
+  district: string;
+  location: string; // Keep for backward compatibility
   address: string;
   phone: string;
   notes: string;
   coordinates: Coordinates | null;
   mapLink: string;
+  nobetKartiId: string;
+  imageUrl: string;
   extractedAt: string;
 }
 
