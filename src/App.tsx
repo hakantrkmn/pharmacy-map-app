@@ -5,6 +5,7 @@ import PharmacyMap from './components/PharmacyMap';
 import PharmacyList from './components/PharmacyList';
 import DatePicker from './components/DatePicker';
 import './App.css';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
@@ -132,6 +133,7 @@ function App() {
 
   return (
     <div className="app">
+      <Analytics />
       <header className="app-header">
         <h1>Nöbetçi Eczaneler</h1>
         <div className="location-status">
