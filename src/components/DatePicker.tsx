@@ -6,12 +6,13 @@ interface DatePickerProps {
 
 export default function DatePicker({ selectedDate, onDateChange, loading = false }: DatePickerProps) {
   
-  // Generate date options (today and next 6 days)
+  // Generate date options (yesterday, today, and next 3 days)
   const generateDateOptions = () => {
     const options = [];
     const todayDate = new Date();
     
-    for (let i = 0; i < 7; i++) {
+    // Start from yesterday (-1) to next 3 days (+3), total 5 days
+    for (let i = -1; i <= 3; i++) {
       const date = new Date(todayDate);
       date.setDate(todayDate.getDate() + i);
       

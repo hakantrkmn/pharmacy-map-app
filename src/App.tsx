@@ -14,7 +14,23 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [dataError, setDataError] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  // Get initial date based on current time
+  const getInitialDate = () => {
+    const now = new Date();
+    const hour = now.getHours();
+    
+    // If it's between 00:00 and 05:00, show previous day
+    if (hour >= 0 && hour < 5) {
+      const yesterday = new Date(now);
+      yesterday.setDate(now.getDate() - 1);
+      return yesterday.toISOString().split('T')[0];
+    }
+    
+    // Otherwise show today
+    return now.toISOString().split('T')[0];
+  };
+
+  const [selectedDate, setSelectedDate] = useState<string>(getInitialDate());
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
