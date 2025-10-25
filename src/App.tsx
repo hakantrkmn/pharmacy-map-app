@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Pharmacy, UserLocation } from './types/pharmacy';
 import { getUserLocation, sortPharmaciesByDistance } from './utils/location';
+import { updateStructuredData } from './utils/structuredData';
 import PharmacyMap from './components/PharmacyMap';
 import PharmacyList from './components/PharmacyList';
 import DatePicker from './components/DatePicker';
@@ -92,6 +93,9 @@ function App() {
         
         const result = await response.json();
         setPharmacies(result.data);
+        
+        // Update structured data for SEO
+        updateStructuredData(result.data);
         
         // Log cache status
         if (result.cached) {

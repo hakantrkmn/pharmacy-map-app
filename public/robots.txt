@@ -1,8 +1,15 @@
 User-agent: *
 Allow: /
 
+# Disallow admin endpoints
+Disallow: /api/cache/
+Disallow: /api/cron/
+
 # Sitemap
 Sitemap: https://izmir-nobetci-eczane.vercel.app/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1
+
+# Host
+Host: https://izmir-nobetci-eczane.vercel.app

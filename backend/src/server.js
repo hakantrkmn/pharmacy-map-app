@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import redisCache from './redis.js';
 import { getPharmacies } from './pharmacyFetcher.js';
+import { serveSitemap } from './sitemapGenerator.js';
 
 dotenv.config();
 
@@ -23,6 +24,11 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     redis: redisCache.isConnected
   });
+});
+
+// Sitemap endpoint
+app.get('/sitemap.xml', (req, res) => {
+  serveSitemap(req, res);
 });
 
 // Get pharmacy data endpoint

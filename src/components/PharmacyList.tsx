@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Pharmacy, UserLocation } from '../types/pharmacy';
 import { getDistanceFromUser, getGoogleMapsDirectionsUrl } from '../utils/location';
 
@@ -35,16 +36,16 @@ export default function PharmacyList({
   };
 
   return (
-    <div className="pharmacy-list">
-      <div className="list-header">
+    <section className="pharmacy-list" itemScope itemType="https://schema.org/ItemList">
+      <header className="list-header">
         <h2>Nöbetçi Eczaneler</h2>
-        <p className="pharmacy-count">{pharmacies.length} eczane bulundu</p>
+        <p className="pharmacy-count" itemProp="numberOfItems">{pharmacies.length} eczane bulundu</p>
         {userLocation && (
           <p className="location-info">
             Konum algılandı - mesafeler gösteriliyor
           </p>
         )}
-      </div>
+      </header>
 
       <div className="pharmacy-items">
         {pharmacies.map((pharmacy) => {
@@ -52,33 +53,44 @@ export default function PharmacyList({
           const isSelected = selectedPharmacy?.name === pharmacy.name;
 
           return (
-            <div
+            <article
               key={`${pharmacy.name}-${pharmacy.location}`}
               className={`pharmacy-item ${isSelected ? 'selected' : ''}`}
               onClick={() => onPharmacySelect(pharmacy)}
+              itemScope
+              itemType="https://schema.org/Pharmacy"
+              itemProp="itemListElement"
             >
-              <div className="pharmacy-header">
-                <h3>{pharmacy.name} ECZANESİ</h3>
+              <header className="pharmacy-header">
+                <h3 itemProp="name">{pharmacy.name} ECZANESİ</h3>
                 {distance !== null && (
                   <span className="distance">{distance} km</span>
                 )}
-              </div>
+              </header>
 
               <div className="pharmacy-info">
                 <p className="district">
-                  <span className="label">İlçe:</span> {pharmacy.district}
+                  <span className="label">İlçe:</span> 
+                  <span itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                    <span itemProp="addressLocality">{pharmacy.district}</span>
+                  </span>
                 </p>
                 {pharmacy.address && (
                   <p className="address">
-                    <span className="label">Adres:</span> {pharmacy.address}
+                    <span className="label">Adres:</span> 
+                    <span itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                      <span itemProp="streetAddress">{pharmacy.address}</span>
+                    </span>
                   </p>
                 )}
                 <p className="phone">
-                  <span className="label">Telefon:</span> {pharmacy.phone}
+                  <span className="label">Telefon:</span> 
+                  <span itemProp="telephone">{pharmacy.phone}</span>
                 </p>
                 {pharmacy.notes && (
                   <p className="notes">
-                    <span className="label">Notlar:</span> {pharmacy.notes}
+                    <span className="label">Notlar:</span> 
+                    <span itemProp="description">{pharmacy.notes}</span>
                   </p>
                 )}
               </div>
@@ -105,10 +117,10 @@ export default function PharmacyList({
                   </button>
                 )}
               </div>
-            </div>
+            </article>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
