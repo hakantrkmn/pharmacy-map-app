@@ -77,7 +77,7 @@ function generateSitemap() {
  * @param {Object} req - Request object
  * @param {Object} res - Response object
  */
-function serveSitemap(req, res) {
+export function serveSitemap(req, res) {
   const sitemap = generateSitemap();
   
   res.setHeader('Content-Type', 'application/xml');
@@ -85,7 +85,4 @@ function serveSitemap(req, res) {
   res.status(200).send(sitemap);
 }
 
-module.exports = {
-  generateSitemap,
-  serveSitemap
-};
+export { generateSitemap };
